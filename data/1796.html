@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/webshim/1.15.7/minified/polyfiller.js"></script>      
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.2/lumen/bootstrap.min.css" />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>      
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0//js/bootstrap-datepicker.min.js"></script>      
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0//css/bootstrap-datepicker3.min.css" />
+
+      <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" />    
+      <link rel="stylesheet" href="/stylesheets/share.css" />    
+      <link rel="stylesheet" href="/stylesheets/app.css" />    
+
+      <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+      <script src="https://cdn.rawgit.com/kswedberg/jquery-expander/9b8da2340b87e8dbbb5e7e2563a2ca4bdf09a1b4/jquery.expander.min.js"></script>
+      <script src="/javascripts/app.js"></script>
+
+    <meta http-equiv="x-ua-compatible" content="IE=10">
+<script>
+
+document.domain = '38degrees.org.uk';
+
+
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-10757895-7', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+    <title>38 Degrees Election Hub</title>
+    <meta name="description" content="Join this event at Opposite The Point nightclub in Sunderland  on Sat 25th Apr 2015, 11:00am">
+    <meta property="og:title" content="38 Degrees Election Hub" />
+    <meta property="og:image" content="https://s.bsd.net/38degrees/main/page/-/14929457840_1766da5c61_k.jpg" />
+
+    <style>      
+      #map { margin-top: 10px; position: relative }
+      #map-canvas { height: 100%; }
+      @media(min-width: 768px) {      
+        #container, #row { height: 100%; }
+        #container { padding-right: 0}
+        #row { margin-right: 0 }
+        #content { height: 100%; overflow-y: auto;  }
+        #map { height: 100%; padding: 0; margin-top: 0 }    
+        #key { position: absolute; bottom: 0; left:0; width: 150px; background: rgba(255,255,255,0.7); padding: 10px; }
+        #key p, #key .table { font-size: 12px }
+        #right {  position: absolute; top: 0; right: 0; height: 100%; width: 50%; overflow-y: auto; background: rgba(255,255,255,0.7); padding: 10px}
+      }
+    </style>
+
+      <script src="https://maps.googleapis.com/maps/api/js"></script>
+      <style>
+        #map-canvas { margin-bottom: 20px; height: 400px }
+        @media(min-width: 768px) {  
+          #map-canvas { margin: 0; width: 100%; height: 100% }
+        }
+      </style>
+
+  </head>
+  <body>
+
+        <script>
+  $(function () {
+
+    var infoWindows = [];
+    function closeAllInfoWindows() {
+      for (var i = 0; i < infoWindows.length; i++) {
+        infoWindows[i].close();
+      }
+    }
+
+    map = new google.maps.Map(document.getElementById("map-canvas"),
+            {
+              center: new google.maps.LatLng(53.391329, -2.4700224),
+              zoom: 6,
+              maxZoom: 18,
+              zoomControlOptions: {style: google.maps.ZoomControlStyle.SMALL},
+              styles: [
+                {featureType: "poi", stylers: [{visibility: "off"}]}
+              ]
+            });
+
+    var bounds = new google.maps.LatLngBounds();
+
+
+      var events = [{"id":1796,"latitude":54.9015860815574,"longitude":-1.38101577758789,"outside":null,"meeting_time":"2015-04-25T11:00:00.000+01:00"}];
+      var now = new Date();
+      $.each(events, function (i, event) {
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(event.latitude, event.longitude),
+          map: map,
+          icon: (Date.parse(event.meeting_time) > now ? 'https://election.38degrees.org.uk/images/group.png' : 'https://election.38degrees.org.uk/images/group-lblue.png')
+        });
+        google.maps.event.addListener(marker, 'click', function (e) {
+          var infoWindow = new google.maps.InfoWindow();
+          infoWindow.setContent('<div class="infowindow"><i class="fa fa-spin fa-spinner"></i></div>');
+          closeAllInfoWindows();
+          infoWindow.open(map, marker);
+          infoWindows.push(infoWindow);
+          $.get('/events/' + event.id, function (data) {
+            infoWindow.setContent('<div class="infowindow">' + data + '</div>');
+          });
+        });
+        if (!event.outside)
+          bounds.extend(marker.getPosition());
+      });
+
+      map.fitBounds(bounds);
+  });
+
+</script>
+  
+    <div id="alert-wrap" style="z-index: 1040; width: 40%; margin-left: -20%; left: 50%; position: absolute; margin-top: 20px;">
+</div>
+<script>
+  $(function() {
+    $(".alert").alert()
+    window.setTimeout(function() {
+      $("#alert-wrap .alert").alert('close');
+    }, 3000);
+  });
+</script>
+
+
+
+
+    <div id="container" class="container-fluid">
+      <div class="row" id="row">
+        <div class="col-md-6" id="content">
+
+            <div class="navbar navbar-inverse" style="border-top-left-radius: 0; border-top-right-radius: 0">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <div class="navbar-collapse collapse navbar-responsive-collapse">             
+        <ul class="nav navbar-nav"><li><a href="/">Home</a></li><li><a href="/accounts/sign_in">Sign in</a></li></ul>
+  </div>
+</div>     
+
+          
+<div class="panel panel-default event" style="text-align: left; white-space: normal">
+
+  <div class="panel-heading" style="">
+    <a href="/areas/1295?topic_id=260" style="color:inherit;">
+      <span style="font-weight:bold">Houghton and Sunderland South</span> / Save our NHS
+    </a> 
+  </div> 
+
+  <div class="panel-body">
+
+      <h3 style="margin-top: 0">Save our NHS National Day of Action</h3>
+
+    <ul class="fa-ul">
+      <li><i title="Meeting time" class="fa fa-li fa-clock-o"></i> Sat 25th Apr 2015, 11:00am</li>
+      <li><i title="Meeting point" class="fa fa-li fa-map-marker"></i> Opposite The Point nightclub in Sunderland </li>
+      <li><i title="Link" class="fa fa-li fa-link"></i> <a href="/events/1796">/events/1796</a></li>      
+    </ul>
+
+
+      <p class="event-details">Come and join us for the big national 'Save our NHS' Day of Action just before the election</p>
+
+    
+<div id="share-buttons-ec6cf5348dd6ab334173cf669d19f753" class="share-buttons">
+
+  <span class="facebook">
+    <a class="button popup" href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Felection.38degrees.org.uk%2Fevents%2F1796">
+      <i class="fa fa-facebook-square"></i> Share
+    </a>
+    <span class="count"><i></i><u></u></span>
+  </span>
+
+  <script>
+    $(function () {
+      $.getJSON('https://graph.facebook.com/?ids=https%3A%2F%2Felection.38degrees.org.uk%2Fevents%2F1796', function (data) {
+        $('#share-buttons-ec6cf5348dd6ab334173cf669d19f753 .facebook .count').append(data['https://election.38degrees.org.uk/events/1796']['shares'] || 0);
+      });
+    });
+  </script>
+
+  <span class="twitter">
+    <a class="button popup" href="http://twitter.com/intent/tweet?url=https%3A%2F%2Felection.38degrees.org.uk%2Fevents%2F1796&text=I%27m+taking+action+with+%4038_degrees+at+Opposite+The+Point+nightclub+in+Sunderland++on+Sat+25th+Apr+2015%2C+11%3A00am">
+      <i class="fa fa-twitter"></i> Tweet
+    </a>
+    <span class="count"><i></i><u></u></span>  
+  </span>
+
+  <script>
+    $(function () {
+      $.getJSON("https://urls.api.twitter.com/1/urls/count.json?url=https%3A%2F%2Felection.38degrees.org.uk%2Fevents%2F1796+&callback=?", function (data) {
+        $('#share-buttons-ec6cf5348dd6ab334173cf669d19f753 .twitter .count').append('<a target="_blank" href="http://twitter.com/search?q=https%3A%2F%2Felection.38degrees.org.uk%2Fevents%2F1796">' + data['count'] + '</a>');
+      });
+    });
+  </script>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+  <p>Fill in your details below to  sign up to this event in Houghton and Sunderland South.</p>
+<form action="/events/1796/attending" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data" method="post">    <input type="hidden" name="account[source]" value="" />
+
+            <div class="form-group ">
+              <label for="account_name" class="control-label col-md-3">
+                Name*
+          
+              </label>
+              <div class="col-md-6">
+                <input type="text" name="account[name]" id="account_name" class="form-control" required="required" />
+          
+              </div>
+            </div>
+          
+
+            <div class="form-group ">
+              <label for="account_email" class="control-label col-md-3">
+                Email*
+          
+              </label>
+              <div class="col-md-6">
+                <input type="text" name="account[email]" id="account_email" class="form-control" required="required" />
+          
+              </div>
+            </div>
+          
+
+            <div class="form-group ">
+              <label for="account_postcode" class="control-label col-md-3">
+                Postcode*
+          
+              </label>
+              <div class="col-md-6">
+                <input type="text" name="account[postcode]" id="account_postcode" class="form-control" required="required" />
+          
+              </div>
+            </div>
+             
+
+            <div class="form-group ">
+              <label for="account_password" class="control-label col-md-3">
+                Please choose a password*
+          
+              </label>
+              <div class="col-md-6">
+                <input type="password" name="account[password]" id="account_password" class="form-control" />
+          
+              </div>
+            </div>
+          
+
+<div id="signup-address">
+  
+  
+            <div class="form-group ">
+              <label for="account_address1" class="control-label col-md-3">
+                Address line 1
+          
+              </label>
+              <div class="col-md-6">
+                <input type="text" name="account[address1]" id="account_address1" class="form-control" />
+          
+              </div>
+            </div>
+          
+  
+            <div class="form-group ">
+              <label for="account_address2" class="control-label col-md-3">
+                Address line 2
+          
+              </label>
+              <div class="col-md-6">
+                <input type="text" name="account[address2]" id="account_address2" class="form-control" />
+          
+              </div>
+            </div>
+          
+  
+            <div class="form-group ">
+              <label for="account_town" class="control-label col-md-3">
+                Town or city
+          
+              </label>
+              <div class="col-md-6">
+                <input type="text" name="account[town]" id="account_town" class="form-control" />
+          
+              </div>
+            </div>
+          
+  <div class="form-group">
+  <div class="col-md-offset-3 col-md-6">
+    <p><strong><em>Putting in your phone number isn't mandatory but it'll mean the staff team can support you on the day of an event with some handy tips</em></strong></p>
+  </div>
+</div>
+  
+            <div class="form-group ">
+              <label for="account_phone" class="control-label col-md-3">
+                Phone
+          
+              </label>
+              <div class="col-md-6">
+                <input type="text" name="account[phone]" id="account_phone" class="form-control" />
+          
+              </div>
+            </div>
+          
+</div>
+
+
+            <div class="form-group">
+              <div class="col-md-offset-3 col-md-6">
+                <button class="btn btn-primary" type="submit">Submit</button> 
+              </div>
+            </div>
+          
+
+</form>
+
+
+
+          <hr />
+
+          <div style="text-align: center; margin-bottom: 10px">
+            
+<div id="share-buttons-dcda6e72c4c514c103cdc68713cdf09a" class="share-buttons">
+
+  <span class="facebook">
+    <a class="button popup" href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Felection.38degrees.org.uk">
+      <i class="fa fa-facebook-square"></i> Share
+    </a>
+    <span class="count"><i></i><u></u></span>
+  </span>
+
+  <script>
+    $(function () {
+      $.getJSON('https://graph.facebook.com/?ids=https%3A%2F%2Felection.38degrees.org.uk', function (data) {
+        $('#share-buttons-dcda6e72c4c514c103cdc68713cdf09a .facebook .count').append(data['https://election.38degrees.org.uk']['shares'] || 0);
+      });
+    });
+  </script>
+
+  <span class="twitter">
+    <a class="button popup" href="http://twitter.com/intent/tweet?url=https%3A%2F%2Felection.38degrees.org.uk&text=I+just+signed+up+to+the+38+Degrees+Election+Hub%2C+will+you+join+me%3F">
+      <i class="fa fa-twitter"></i> Tweet
+    </a>
+    <span class="count"><i></i><u></u></span>  
+  </span>
+
+  <script>
+    $(function () {
+      $.getJSON("https://urls.api.twitter.com/1/urls/count.json?url=https%3A%2F%2Felection.38degrees.org.uk+&callback=?", function (data) {
+        $('#share-buttons-dcda6e72c4c514c103cdc68713cdf09a .twitter .count').append('<a target="_blank" href="http://twitter.com/search?q=https%3A%2F%2Felection.38degrees.org.uk">' + data['count'] + '</a>');
+      });
+    });
+  </script>
+
+</div>
+
+
+          </div>                  
+
+        </div>
+
+        <div class="col-md-6" id="map">
+          <div id="map-canvas"></div>
+            <div id="key">
+              <h3 style="font-size: 16px">Key</h3>
+              <table class="table">
+                <tr><td><img src="https://election.38degrees.org.uk/images/group.png" /></td><td>Event</td></tr>
+                <tr><td><img src="https://election.38degrees.org.uk/images/home.png" /></td><td>Members in your constituency</td></tr>
+                <tr><td><img src="https://election.38degrees.org.uk/images/outside.png" /></td><td>Members outside your constituency</td></tr>
+              </table>
+              <p>Member locations are approximate.</p>   
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+
+  </body>
+</html>

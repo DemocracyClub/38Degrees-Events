@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/webshim/1.15.7/minified/polyfiller.js"></script>      
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.2/lumen/bootstrap.min.css" />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>      
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0//js/bootstrap-datepicker.min.js"></script>      
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0//css/bootstrap-datepicker3.min.css" />
+
+      <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" />    
+      <link rel="stylesheet" href="/stylesheets/share.css" />    
+      <link rel="stylesheet" href="/stylesheets/app.css" />    
+
+      <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+      <script src="https://cdn.rawgit.com/kswedberg/jquery-expander/9b8da2340b87e8dbbb5e7e2563a2ca4bdf09a1b4/jquery.expander.min.js"></script>
+      <script src="/javascripts/app.js"></script>
+
+    <meta http-equiv="x-ua-compatible" content="IE=10">
+<script>
+
+document.domain = '38degrees.org.uk';
+
+
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-10757895-7', 'auto');
+ ga('send', 'pageview');
+
+</script>
+
+    <title>38 Degrees Election Hub</title>
+    <meta name="description" content="Make a difference in May 2015 - sign up to the 38 Degrees Election Hub!">
+    <meta property="og:title" content="38 Degrees Election Hub" />
+    <meta property="og:image" content="https://s.bsd.net/38degrees/main/page/-/14929457840_1766da5c61_k.jpg" />
+
+    <style>      
+      #map { margin-top: 10px; position: relative }
+      #map-canvas { height: 100%; }
+      @media(min-width: 768px) {      
+        #container, #row { height: 100%; }
+        #container { padding-right: 0}
+        #row { margin-right: 0 }
+        #content { height: 100%; overflow-y: auto;  }
+        #map { height: 100%; padding: 0; margin-top: 0 }    
+        #key { position: absolute; bottom: 0; left:0; width: 150px; background: rgba(255,255,255,0.7); padding: 10px; }
+        #key p, #key .table { font-size: 12px }
+        #right {  position: absolute; top: 0; right: 0; height: 100%; width: 50%; overflow-y: auto; background: rgba(255,255,255,0.7); padding: 10px}
+      }
+    </style>
+
+      <style>
+        @media(min-width: 768px) {  
+          #map-canvas { background-image: url('https://s.bsd.net/38degrees/main/page/-/14929457840_1766da5c61_k.jpg'); background-size: cover; background-position: bottom right }
+        }
+      </style>
+
+  </head>
+  <body>
+
+    <div id="alert-wrap" style="z-index: 1040; width: 40%; margin-left: -20%; left: 50%; position: absolute; margin-top: 20px;">
+      <div class="fade in alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        That event is not yet approved
+      </div>
+</div>
+<script>
+  $(function() {
+    $(".alert").alert()
+    window.setTimeout(function() {
+      $("#alert-wrap .alert").alert('close');
+    }, 3000);
+  });
+</script>
+
+
+
+
+    <div id="container" class="container-fluid">
+      <div class="row" id="row">
+        <div class="col-md-6" id="content">
+
+            <div class="navbar navbar-inverse" style="border-top-left-radius: 0; border-top-right-radius: 0">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <div class="navbar-collapse collapse navbar-responsive-collapse">             
+        <ul class="nav navbar-nav"><li class="active" ><a href="/">Home</a></li><li><a href="/accounts/sign_in">Sign in</a></li></ul>
+  </div>
+</div>     
+
+          
+<h1>Welcome to the 38 Degrees election hub</h1>
+
+<strong>From Saving our NHS, to tackling tax dodgers and stopping TTIP, 38 Degrees members across the country are working together to make sure that this election is fought on the issues we all care about.</strong>  
+
+<br><br>
+
+<strong>Fill in your postcode to get started.</strong> You'll then need to add your details and create a password. This is so you can log in and see events near you and chat with other local 38 Degrees members. (you’ll be asked for the password every time you visit the website). <strong> If you've already registered, please click 'Sign in' at the top of this page.</strong>
+
+<br><br>
+
+Already, thousands of us have signed up to meet other 38 Degrees members and hold 'Save our NHS' events on high streets across England. But if we’re really going to make a difference, more of us need to volunteer.  <strong>Fill in your postcode below to get involved and chat with other members near you.</strong>
+
+<br><br>
+
+<form id="p" method="get" action="/">
+
+    <input type="hidden" name="postcode" value="" />
+    <input type="hidden" name="left_col_class" value="" />
+    <input type="hidden" name="right_col_class" value="" />
+    <input type="hidden" name="nav" value="" />
+    <input type="hidden" name="path" value="" />
+    <input type="hidden" name="source" value="" />
+    <input type="hidden" name="name" value="" />
+    <input type="hidden" name="email" value="" />
+    <input type="hidden" name="address1" value="" />
+    <input type="hidden" name="address2" value="" />
+    <input type="hidden" name="town" value="" />
+    <input type="hidden" name="phone" value="" />
+    <input type="hidden" name="date" value="" />
+    <input type="hidden" name="tinfo_id" value="" />
+
+  <div class="form-group">
+    <input name="postcode" type="text" class="form-control" placeholder="Your postcode" value="">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Find my constituency</button>
+</form>
+
+
+
+
+          <hr />
+
+          <div style="text-align: center; margin-bottom: 10px">
+            
+<div id="share-buttons-dcda6e72c4c514c103cdc68713cdf09a" class="share-buttons">
+
+  <span class="facebook">
+    <a class="button popup" href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Felection.38degrees.org.uk">
+      <i class="fa fa-facebook-square"></i> Share
+    </a>
+    <span class="count"><i></i><u></u></span>
+  </span>
+
+  <script>
+    $(function () {
+      $.getJSON('https://graph.facebook.com/?ids=https%3A%2F%2Felection.38degrees.org.uk', function (data) {
+        $('#share-buttons-dcda6e72c4c514c103cdc68713cdf09a .facebook .count').append(data['https://election.38degrees.org.uk']['shares'] || 0);
+      });
+    });
+  </script>
+
+  <span class="twitter">
+    <a class="button popup" href="http://twitter.com/intent/tweet?url=https%3A%2F%2Felection.38degrees.org.uk&text=I+just+signed+up+to+the+38+Degrees+Election+Hub%2C+will+you+join+me%3F">
+      <i class="fa fa-twitter"></i> Tweet
+    </a>
+    <span class="count"><i></i><u></u></span>  
+  </span>
+
+  <script>
+    $(function () {
+      $.getJSON("https://urls.api.twitter.com/1/urls/count.json?url=https%3A%2F%2Felection.38degrees.org.uk+&callback=?", function (data) {
+        $('#share-buttons-dcda6e72c4c514c103cdc68713cdf09a .twitter .count').append('<a target="_blank" href="http://twitter.com/search?q=https%3A%2F%2Felection.38degrees.org.uk">' + data['count'] + '</a>');
+      });
+    });
+  </script>
+
+</div>
+
+
+          </div>                  
+
+        </div>
+
+        <div class="col-md-6" id="map">
+          <div id="map-canvas"></div>
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+
+  </body>
+</html>
