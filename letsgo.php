@@ -2,6 +2,8 @@
 
 $logFileDone = __DIR__ . DIRECTORY_SEPARATOR . "eventsDone.log";
 $logFilePassing = __DIR__ . DIRECTORY_SEPARATOR . "eventsPass.log";
+$createEventCommandFile = '/var/www/MeetYourNextMP-Web-Core/core/cliapi1/createEvent.php';
+$tmpDataFile = '/tmp/newEventData.json';
 
 ########## Raw Data
 
@@ -51,6 +53,13 @@ foreach($dataObj as $hustingJSON) {
 
 	} else {
 
+		if (!isset($hustingJSON->title)) {
+			$hustingJSON->title = "Hustings";
+		}
+		if (!isset($hustingJSON->description)) {
+			$hustingJSON->description = "";
+		}
+
 		print "id: ". $id . "\n";
 		print "date: ". $hustingJSON->date . "\n";
 		print "title: ". $hustingJSON->title . "\n";
@@ -71,7 +80,37 @@ foreach($dataObj as $hustingJSON) {
 				$result = true;
 			} else if (strtolower(substr(trim($line), 0, 1)) == "c") {
 
-				// TODO!
+				$descriptorspec = array(
+					0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+					1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+					2 => array("file", "/tmp/error-output.txt", "a") // stderr is a file to write to
+				);
+
+				$end = clone $start;
+				$end->add(new \DateInterval("PT2H"));
+
+				$createJSON = array(
+					'site'=>array(
+						'id'=>1,
+					),
+					'user'=>array(
+						'email'=>'james@jarofgreen.co.uk',
+					),
+					'event'=>array(
+						'summary'=>$hustingJSON->title,
+						'description'=>$hustingJSON->description,
+						'url'=>"https://election.38degrees.org.uk". $hustingJSON->link,
+						'start'=>array('str'=>$hustingJSON->date),
+						'end'=>array('str'=>$end->format("r")),
+						'country'=>array('code'=>'GB'),
+						'timezone'=>'Europe/London',
+					),
+				);
+
+				file_put_contents($tmpDataFile, json_encode($createJSON));
+
+				exec("cat ".$tmpDataFile. " | php ".$createEventCommandFile);
+				
 
 				file_put_contents($logFileDone, "\n".$id."\n", FILE_APPEND);
 				$result = true;
