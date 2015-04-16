@@ -39,9 +39,21 @@ foreach($dataObj as $hustingJSON) {
 
 	$start = new \DateTime($hustingJSON->date, new \DateTimeZone("Europe/London"));
 
+                if (!isset($hustingJSON->title)) {
+                        $hustingJSON->title = "";
+                }
+                if (!isset($hustingJSON->description)) {
+                        $hustingJSON->description = "";
+                }
+
+
 	if ($start->getTimestamp() < $now->getTimestamp()) {
 
 		print  "  in the past\n";
+
+	} else if (strpos(strtolower($hustingJSON->title), 'hustings') === false && strpos(strtolower($hustingJSON->description), 'hustings') === false) {
+
+		print "  not a husting\n";
 
 	} else if (in_array($id, $idsDone)) {
 
@@ -52,13 +64,6 @@ foreach($dataObj as $hustingJSON) {
 		print "  already passed\n";
 
 	} else {
-
-		if (!isset($hustingJSON->title)) {
-			$hustingJSON->title = "Hustings";
-		}
-		if (!isset($hustingJSON->description)) {
-			$hustingJSON->description = "";
-		}
 
 		print "id: ". $id . "\n";
 		print "date: ". $hustingJSON->date . "\n";
@@ -88,6 +93,11 @@ foreach($dataObj as $hustingJSON) {
 
 				$end = clone $start;
 				$end->add(new \DateInterval("PT2H"));
+
+		                if (!$hustingJSON->title) {
+               			        $hustingJSON->title = "Hustings";
+               			}
+
 
 				$createJSON = array(
 					'site'=>array(
