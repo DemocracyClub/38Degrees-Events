@@ -2,7 +2,7 @@
 
 $logFileDone = __DIR__ . DIRECTORY_SEPARATOR . "eventsDone.log";
 $logFilePassing = __DIR__ . DIRECTORY_SEPARATOR . "eventsPass.log";
-$createEventCommandFile = '/var/www/MeetYourNextMP-Web-Core/core/cliapi1/createEvent.php';
+$createEventCommandFile = '/meetyournextmp-web/core/cliapi1/createEvent.php';
 $tmpDataFile = '/tmp/newEventData.json';
 
 ########## Raw Data
